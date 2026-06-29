@@ -150,6 +150,16 @@ impl App {
                 true
             }
             crate::raw_input::RawInputEvent::Mouse(mouse) => {
+                if matches!(
+                    mouse.kind,
+                    crossterm::event::MouseEventKind::Down(crossterm::event::MouseButton::Middle)
+                ) {
+                    if let Some(text) = crate::platform::read_clipboard_text() {
+                        self.handle_paste(text).await;
+                    }
+                    return true;
+                }
+
                 if self.state.mouse_capture {
                     self.handle_mouse(mouse);
                 } else {

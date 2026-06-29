@@ -831,13 +831,10 @@ impl AppState {
                 }
             }
 
-            MouseEventKind::Up(MouseButton::Middle) | MouseEventKind::Drag(MouseButton::Middle)
-                if !in_sidebar =>
-            {
-                if let Some(info) = self.pane_mouse_target(mouse.column, mouse.row).cloned() {
-                    let _ = self.forward_pane_mouse_button(terminal_runtimes, &info, mouse);
-                }
-            }
+            MouseEventKind::Down(MouseButton::Middle)
+            | MouseEventKind::Up(MouseButton::Middle)
+            | MouseEventKind::Drag(MouseButton::Middle)
+                if !in_sidebar => {}
 
             MouseEventKind::ScrollUp | MouseEventKind::ScrollDown
                 if self.on_tab_bar(mouse.column, mouse.row) =>
